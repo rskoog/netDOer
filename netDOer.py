@@ -15,7 +15,7 @@ ENABLE_PASS_PROMPT = ".*password: "
 firstexpectvalues = [JUNOS_MATCH, JUNOS_SHELL, PROMPT, ENABLE_PASS_PROMPT]
 expectprompt = [PROMPT, ENABLE_PASS_PROMPT, PAGER_PROMPT]
 
-class NetDOer:
+class netDOer:
    """This class interacts with a network device using an SSH connection, 
    currently attempts to support IOS like devices and Junos devices"""
 
