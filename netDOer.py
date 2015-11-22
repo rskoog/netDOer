@@ -1,7 +1,12 @@
 #
 # NetDOer Class A class to make a couple network tasks easier.
 #
-import pdb
+# This script uses the paramiko expect library 
+# https://github.com/fgimian/paramiko-expect
+# It was however tested against my local fork which includes a couple of changes
+# https://github.com/rskoog/paramiko-expect
+#
+
 import re
 import traceback
 import paramiko
@@ -51,7 +56,6 @@ class netDOer:
 	       if self.SSHinteraction.last_match == JUNOS_MATCH:
 	           self.DeviceType = "junos"
 		   #We need to see if we have the cli or shell
-		   pdb.set_trace()
 		   junosshellre = re.compile(JUNOS_SHELL)
 		   match = junosshellre.search(
 		                        self.SSHinteraction.current_output)
@@ -81,7 +85,7 @@ class netDOer:
 	             self.DeviceType):
 	           break
        except:
-           traceback.print_exc()
+           raise ValueError("Failed to connect to Device and initialize obj")
 	   pass
 
    def __getJuniperValue(self, commandstring):
@@ -100,7 +104,7 @@ class netDOer:
        self.SSHinteraction.expect(expectprompt)
        outputToReturn = self.SSHinteraction.current_output_clean
        while self.SSHinteraction.last_match == PAGER_PROMPT:
-           self.SSHinteraction.send(" ")
+           self.SSHinteraction.send("")
 	   self.SSHinteraction.expect(expectprompt)
 	   outputToReturn += self.SSHinteraction.current_output_clean
        return outputToReturn
